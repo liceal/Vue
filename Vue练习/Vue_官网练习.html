@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：网页获取键值，此处参数为键
+            -->
+			{{message}}
+		</div>
+		<div id="app-2">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-bind：设置指定属性为指定键值
+            	这里设置	title="message"键值
+            -->
+			<span v-bind:title="message">
+				鼠标悬停几秒钟查看此处动态绑定的提示信息
+			</span>
+		</div>
+		<div id="app-3">
+			<!--
+	        	作者：675024132@qq.com
+	        	时间：2018-12-21
+	        	描述：v-if: 设置判断条件
+	        	这里设置seen，默认为true,可==或者其他符号判断
+	        -->
+			<p v-if="seen">现在你看到我了</p>
+		</div>
+		<div id="app-4">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-for:设置循环参数
+            	此参数todo in todos：
+            		todo为自己创建的值，todos为数组
+            		这里遍历todos数组，将每一个内容给todo
+            	然后输出todo.text
+            		text为键，返回对应值
+            -->
+			<ol>
+				<li v-for="todo in todos">
+					{{todo.text}}
+				</li>
+			</ol>
+		</div>
+		<div id="app-5">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-on:click：设置点击事件
+            		参数为一个键
+            		键中定义了一个方法，详情请看下面注解
+            -->
+			<p>{{message}}</p>
+			<button v-on:click="reverseMessage">逆转消息</button>
+		</div>
+		<div id="app-6">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-model替代value输出内容
+            	网页文本内容可以用{{}}
+            	对于value或者其他非网页直接内容
+            	获取vue传递参数，需要v-model="键"	传递返回值
+            -->
+			<p>{{message}}</p>
+			<input type="text" v-model="message" />
+		</div>
+		<div id="app-7">
+			<ol>
+				<!--
+	            	作者：675024132@qq.com
+	            	时间：2018-12-21
+	            	描述：使用自定义创建组件todo-item
+	            	v-for：遍历groceryList数组中的数据，每一组键赋值给item变量返回
+	            	v-bind:设置todo属性为item,todo是自定义的子组件
+	            	v-bind:设置key属性为item.id，key是特殊属性，指每组数据里的键值
+	            	
+	            	页面输出了数组里的所有元素在有序列表内
+	            	在模块中，有模块template设置了静态组件，
+	            	这里将todo的值设置成数组遍历里的每一组数据
+	            		todo==每组数据
+	            	这里将key的值设置成遍历出来的每组数据中的键值
+	            		key==每组数据键值   TIPS：这里键值没用排上用场。。。。
+	            	之后返回数据给模块输出
+	            -->
+	            <todo-item
+	            	v-for="item in groceryList"
+	            	v-bind:todo="item"
+	            	v-bind:key="item.id">
+	            </todo-item>
+			</ol>	
+		</div>
+	</body>
+	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/Vue_官网练习.js"></script>
+</html>
