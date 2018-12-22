@@ -13,6 +13,7 @@
             -->
 			{{message}}
 		</div>
+		<hr />
 		<div id="app-2">
 			<!--
             	作者：675024132@qq.com
@@ -24,6 +25,7 @@
 				鼠标悬停几秒钟查看此处动态绑定的提示信息
 			</span>
 		</div>
+		<hr />
 		<div id="app-3">
 			<!--
 	        	作者：675024132@qq.com
@@ -33,6 +35,7 @@
 	        -->
 			<p v-if="seen">现在你看到我了</p>
 		</div>
+		<hr />
 		<div id="app-4">
 			<!--
             	作者：675024132@qq.com
@@ -43,13 +46,28 @@
             		这里遍历todos数组，将每一个内容给todo
             	然后输出todo.text
             		text为键，返回对应值
+            	
+            	另外写了v-if判断number是否小于0
+            	@click按钮事件，执行简单操作，类似C
+            	
+            	在数据进行改变时，全局都会受到改变，不需要出发点击或者任何刷新事件。
             -->
 			<ol>
 				<li v-for="todo in todos">
-					{{todo.text}}
+					{{todo.text}} 知识储量=>{{todo.number}}
+					<span v-if="todo.number<0">
+						 - 没有知识了 - 
+					</span>
+					<button @click="todo.number+=1">
+						增加
+					</button>
+					<button @click="todo.number-=1">
+						减少
+					</button>
 				</li>
 			</ol>
 		</div>
+		<hr />
 		<div id="app-5">
 			<!--
             	作者：675024132@qq.com
@@ -61,6 +79,7 @@
 			<p>{{message}}</p>
 			<button v-on:click="reverseMessage">逆转消息</button>
 		</div>
+		<hr />
 		<div id="app-6">
 			<!--
             	作者：675024132@qq.com
@@ -73,24 +92,25 @@
 			<p>{{message}}</p>
 			<input type="text" v-model="message" />
 		</div>
+		<hr />
 		<div id="app-7">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：使用自定义创建组件todo-item
+            	v-for：遍历groceryList数组中的数据，每一组键赋值给item变量返回
+            	v-bind:设置todo属性为item,todo是自定义的子组件
+            	v-bind:设置key属性为item.id，key是特殊属性，指每组数据里的键值
+            	
+            	页面输出了数组里的所有元素在有序列表内
+            	在模块中，有模块template设置了静态组件，
+            	这里将todo的值设置成数组遍历里的每一组数据
+            		todo==每组数据
+            	这里将key的值设置成遍历出来的每组数据中的键值
+            		key==每组数据键值   TIPS：这里键没用排上用场。。。。
+            	之后返回数据给模块输出
+            -->
 			<ol>
-				<!--
-	            	作者：675024132@qq.com
-	            	时间：2018-12-21
-	            	描述：使用自定义创建组件todo-item
-	            	v-for：遍历groceryList数组中的数据，每一组键赋值给item变量返回
-	            	v-bind:设置todo属性为item,todo是自定义的子组件
-	            	v-bind:设置key属性为item.id，key是特殊属性，指每组数据里的键值
-	            	
-	            	页面输出了数组里的所有元素在有序列表内
-	            	在模块中，有模块template设置了静态组件，
-	            	这里将todo的值设置成数组遍历里的每一组数据
-	            		todo==每组数据
-	            	这里将key的值设置成遍历出来的每组数据中的键值
-	            		key==每组数据键值   TIPS：这里键值没用排上用场。。。。
-	            	之后返回数据给模块输出
-	            -->
 	            <todo-item
 	            	v-for="item in groceryList"
 	            	v-bind:todo="item"
@@ -98,7 +118,102 @@
 	            </todo-item>
 			</ol>	
 		</div>
+		<hr />
+		<div id="app-8">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单测试computed与methods属性测试数据
+            -->
+			<p>Original message[原始消息]:"{{message}}"</p>
+			<p>Computed reversed message[计算反转后的消息]:"{{reversedMessage}}"</p>
+		</div>
+		<hr />
+		<div id="app-9">
+			<!--
+        		作者：675024132@qq.com
+        		时间：2018-12-22
+       		 	描述：测试计算属性里默认方法 'get' 'set'
+	        	1.调用时，默认使用get的方法
+	        	2.进行赋值时，在设置完后会改变全局，默认调用set方法，这里返回值为设置完的值，
+	        	3.返回默认值，这里受到set的影响会改变值
+	        	4.同理
+	        -->
+			{{fullName}}<br />
+			{{fullName='lin xian ao'}}<br />
+			{{firstName}}<br />
+			{{lastName}}<br />
+		</div>
+		<hr />
+		<div id="app-10">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单的watch监听器测试
+            	尝试改变question，这里会改变answer的值
+            -->
+			<p>
+				Ask a yes/no question:
+				<input v-model="question">
+			</p>
+			<p>{{answer}}</p>
+		</div>
+		<hr />
+		<div id="app-11" >
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：class与style的绑定
+            	v-bind:class绑定class	v-bind:style绑定style
+            	判断输入的值来改变div方块绑定那些class
+            	默认为green 1:red 2:blue 3:border-radius:50px;
+            -->
+			尝试输入 {1,2,3} <input v-model="control" v-bind:style="styleObject"/>
+			<div class="active" v-bind:class="classObject">
+			</div>
+		</div>
+		<hr />
+		<div id="app-12">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单的for循环迭代
+            	object为一个数组
+            	in是指代 像=>一样
+            	() 可以填至多三个参数
+            	参数1：值	2：键	3：下标
+            -->
+			<ul>
+				<li v-for="(value,key,index) in object">
+					下标：{{index}}=>键：{{key}}=>值：{{value}}
+				</li>
+			</ul>
+		</div>
+		<hr />
+		<div id="app-13">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：捕获按钮事件，当按下指定按键时，触发指定函数
+            	按钮别名：
+            		.enter	回车
+					.tab	tab键
+					.delete (捕获“删除”和“退格”键)
+					.esc	esc键
+					.space	空格
+					.up	上
+					.down	下
+					.left	左
+					.right	右
+            	f1是自定义事件 详情看js注解
+            -->
+			<input v-on:keyup.enter="submit" value="按回车"/>
+			<input @keyup.delete="submit" value="按删除或者回格"/>
+			<input @keyup.f1="submit" value="按f1"/>
+			
+		</div>
 	</body>
+	<link type="text/css" rel="stylesheet" href="css/Vue_官网练习.css" />
 	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="js/Vue_官网练习.js"></script>

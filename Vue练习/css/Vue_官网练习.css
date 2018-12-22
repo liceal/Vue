@@ -1,0 +1,19 @@
+.active{
+	width: 100px;
+	height: 100px;
+	background-color: green;
+	transition: all ease-out 0.5s;
+}
+.active1{
+	width:150px;
+	height: 150px;
+	background-color: red;
+}
+.active2{
+	width: 100px;
+	height: 175px;
+	background-color: blue;
+}
+.active3{
+	border-radius: 50px;
+}
