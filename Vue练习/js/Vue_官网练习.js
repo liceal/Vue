@@ -268,10 +268,10 @@ var app12=new Vue({
 Vue.config.keyCodes.f1=112;
 var app13=new Vue({
 	el:'#app-13',data:{
-		
+
 	},methods:{
-		submit:function(){
-			alert('按键事件')
+		submit:function(value){
+			alert('按钮事件')
 		}
 	}
 })

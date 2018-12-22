@@ -194,7 +194,7 @@
 			<!--
             	作者：675024132@qq.com
             	时间：2018-12-22
-            	描述：捕获按钮事件，当按下指定按键时，触发指定函数
+            	描述：捕获按钮鼠标事件，当按下指定按键时，触发指定函数
             	按钮别名：
             		.enter	回车
 					.tab	tab键
@@ -206,10 +206,21 @@
 					.left	左
 					.right	右
             	f1是自定义事件 详情看js注解
+            	.exact 精准修饰符
+            		加了这个后此键不能组合，不加此键可以组合
+            	鼠标修饰符：
+            		.left	左键
+            		.right	右键
+            		.middle	中建
             -->
-			<input v-on:keyup.enter="submit" value="按回车"/>
-			<input @keyup.delete="submit" value="按删除或者回格"/>
-			<input @keyup.f1="submit" value="按f1"/>
+			<input v-on:keyup.enter="submit" placeholder="按回车"/>
+			<input @keyup.delete="submit" placeholder="按删除或者回格"/>
+			<input @keyup.f1="submit" placeholder="按f1"/>
+			<button @click.ctrl="submit">ctrl | ctrl+任意键</button>
+			<button @click.ctrl.exact="submit">ctrl</button>
+			<button @click.left.exact="submit">鼠标左键</button>
+			<button @click.right.exact="submit">鼠标右键</button>
+			<button @click.middle.exact="submit">鼠标中间</button>
 			
 		</div>
 	</body>
