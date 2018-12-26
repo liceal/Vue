@@ -207,7 +207,7 @@
 					.right	右
             	f1是自定义事件 详情看js注解
             	.exact 精准修饰符
-            		加了这个后此键不能组合，不加此键可以组合
+            		加了这个后此键不能组合，不加此修饰符可以组合键
             	鼠标修饰符：
             		.left	左键
             		.right	右键
@@ -221,7 +221,94 @@
 			<button @click.left.exact="submit">鼠标左键</button>
 			<button @click.right.exact="submit">鼠标右键</button>
 			<button @click.middle.exact="submit">鼠标中间</button>
-			
+		</div>
+		<hr />
+		<div id="app-14">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：表单输入绑定的用法
+            	基本就是，被选中的值本来是被赋值到value中的
+            	这里用v-model代替了value
+            	当替换值的时候，v-model里就有了值
+            	然后下面再输出这个值，每次被选中时，这里关于这个变量都会改变，也是vue的特点
+            	修饰符：
+            	lazy:在change时改变，非input时更新
+            	number:转为数值形式，如果这个值无法被parseFloat()解析则返回原字符
+            	trim:过滤首位空白符
+            	
+            -->
+			<input type="text" v-model.lazy.number.trim="message1" placeholder="edit me"/>
+			<p>文本Message1 is:{{message1}}</p>
+			<input type="checkbox" v-model="message2"/>
+			<label>Message2:{{message2}}</label>
+			<br />
+			<br />
+			<input type="checkbox" value="jack" v-model="message3" /><label>jack</label>
+			<input type="checkbox" value="john" v-model="message3" /><label>john</label>
+			<input type="checkbox" value="Mike" v-model="message3" /><label>Mike</label>
+			<span>message3:{{message3}}</span>
+			<br />
+			<br />
+			<input type="radio" value="One" v-model="message4" /><label>One</label>
+			<input type="radio" value="Two" v-model="message4" /><label>Two</label>
+			<span>Message4:{{message4}}</span>
+			<br />
+			<br />
+			<select v-model="message5">
+				<option disabled>请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+			</select>
+			<span>Message5:{{message5}}</span>
+			<br />
+			<br />
+			<select v-model="message6" multiple="multiple">
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+			</select>
+			<span>Message6:{{message6}}</span>
+			<br />
+			<br />
+			<select v-model="message7">
+				<option v-for="option in options" v-bind:value="option.value">
+					{{option.text}}
+				</option>
+			</select>
+			<span>{{message7}}</span>
+		</div>
+		<hr />
+		<div id="app-15">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：复用组件
+            	详情看js注解
+            -->
+			<button-counter tit='按钮' val='小野菊'></button-counter>
+			<button-counter tit='人物' val='周树人'></button-counter>
+			<button-counter tit='技能' val='买橘子'></button-counter>
+		</div>
+		<hr />
+		<div id="app-16">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：通过事件向父级组件发送消息
+            	未完成
+            	迭代了数据
+            	对自定义属性post赋值迭代内容
+            -->
+			<div>
+				<blog-post
+					v-for="post in posts"
+					v-bind:post="post"
+					>
+					
+				</blog-post>
+			</div>
 		</div>
 	</body>
 	<link type="text/css" rel="stylesheet" href="css/Vue_官网练习.css" />

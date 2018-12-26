@@ -275,3 +275,73 @@ var app13=new Vue({
 		}
 	}
 })
+
+var app14=new Vue({
+	/**
+	 * 表单输入绑定
+	 * 提供一些数据
+	 * 详情看html注解
+	 * */
+	el:'#app-14',data:{
+		message1:'',
+		message2:'false',
+		message3:[],
+		message4:'',
+		message5:'',
+		message6:[],
+		message7:'',
+		options:[
+			{ text: 'One', value: 'A' },
+			{ text: 'Two', value: 'B' },
+			{ text: 'Three', value: 'C' }
+    	]
+	}
+})
+
+/**
+ * 组件的复用
+ * 这里创建了一个组件 button-counter
+ * 组件默认输出一个按钮，点击的时候 count++ 内容返回count值
+ * 在data中有一个函数，函数内一定要return值
+ * 这里默认count为0
+ * 每次++时，会访问data使用函数返回count值，count值会保存
+ * 复用组件返回的值不会相互影响
+ * props自定义了属性
+ * 默认值为空，可以在html中赋值
+ * */
+Vue.component('button-counter',{
+	data:function(){
+		return{
+			count:0	
+		}
+	},
+	props:['tit','val'],
+	template:'<button @click="count++">You clicked me {{count}} tit:{{tit}} val:{{val}}</button>'
+})
+var app15=new Vue({
+	el:'#app-15'
+})
+
+/**
+ * 通过事件向父级组件发送消息
+ * 未完成
+ * 这里就构建了组件与组件属性
+ * html 迭代了下面数据中的posts数据
+ * 传递给自定义属性post进行赋值
+ * 然后template默认输出post属性里的内容
+ * */
+Vue.component('blog-post',{
+	props:['post'],
+	template:'<div><h3>{{ post.title }}</h3><div v-html="post.content"></div></div>',
+
+})
+var app16=new Vue({
+	el:'#app-16',data:{
+		posts:[
+			{id:0,title:'海绵宝宝',content:'我是海绵宝宝'},
+			{id:0,title:'派大星',content:'我是派大星'},
+			{id:0,title:'章鱼哥',content:'我是章鱼哥'},
+		],
+		postFontSize:1
+	}
+})
