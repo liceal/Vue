@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+		<el-autocomplete v-model="input"
+			placeholder
+			:fetch-suggestions="querySearch">
+			
+		</el-autocomplate>
+		</div>
+	</body>
+	
+	<!-- import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!-- import element -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script>
+		new Vue({
+			el:'#app',
+			data:function(){
+				return{
+					input=''
+				}
+			},
+			methods:{
+				querySearch:function(){
+					
+				}
+			}
+		})
+	</script>
+	
+	<style></style>
+</html>

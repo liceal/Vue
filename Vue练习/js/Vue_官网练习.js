@@ -80,8 +80,7 @@ var app6=new Vue({
 	}
 })
 
-/**
- * 组建基础
+/**组建基础
  * 
  * 组件化应用构建component：
  * 	开始让Vue组件化，用component方法
@@ -180,6 +179,7 @@ var app10=new Vue({
 	 * 	当question改变时，会执行这个方法
 	 * 	方法中传递了一个参数，为question的值
 	 * 	这里判断了question的内容来改变answer的值
+	 * 函数内可以多一个参数，返回值是改变前的指
 	 * */
 	el:'#app-10',data:{
 		question:'',
@@ -260,8 +260,7 @@ var app12=new Vue({
 	}
 })
 
-/**
- * 提供按钮事件的除法函数
+/**提供按钮事件的初始函数
  * 可以自定义按钮时间 值为键码值
  * 键码：https://www.cnblogs.com/hubgit/p/5794856.html
  * */
@@ -298,15 +297,14 @@ var app14=new Vue({
 	}
 })
 
-/**
- * 组件的复用
+/**组件的复用
  * 这里创建了一个组件 button-counter
  * 组件默认输出一个按钮，点击的时候 count++ 内容返回count值
  * 在data中有一个函数，函数内一定要return值
  * 这里默认count为0
  * 每次++时，会访问data使用函数返回count值，count值会保存
  * 复用组件返回的值不会相互影响
- * props自定义了属性
+ * props自定义了属性，接受html内传递的指定数据
  * 默认值为空，可以在html中赋值
  * */
 Vue.component('button-counter',{
@@ -322,8 +320,7 @@ var app15=new Vue({
 	el:'#app-15'
 })
 
-/**
- * 通过事件向父级组件发送消息
+/**通过事件向父级组件发送消息
  * 未完成
  * 这里就构建了组件与组件属性
  * html 迭代了下面数据中的posts数据
@@ -333,15 +330,227 @@ var app15=new Vue({
 Vue.component('blog-post',{
 	props:['post'],
 	template:'<div><h3>{{ post.title }}</h3><div v-html="post.content"></div></div>',
-
 })
 var app16=new Vue({
 	el:'#app-16',data:{
 		posts:[
 			{id:0,title:'海绵宝宝',content:'我是海绵宝宝'},
-			{id:0,title:'派大星',content:'我是派大星'},
-			{id:0,title:'章鱼哥',content:'我是章鱼哥'},
+			{id:1,title:'派大星',content:'我是派大星'},
+			{id:2,title:'章鱼哥',content:'我是章鱼哥'},
 		],
 		postFontSize:1
+	}
+})
+
+/**slot插槽
+ * 在模板里加入<slot></slot>,slot可供前端存放内容，甚至可以存放别的组件
+ * 组件中依次：
+ * 	第一个模板：总模板，提供默认插槽
+ * 	第二个模板：自己的测试模板
+ *  第三个模板：使用了默认插槽，具名插槽。实现多插槽功能
+ * 		具名插槽：对slot赋予name属性，通过前端slot="name"，来指定使用插槽（可复用）
+ * 	第四个模板：作用域插槽（未）
+ */
+var app17=new Vue({
+	el:'#app-17',
+	data:{
+		todos:[
+			{id:0,title:'海绵宝宝',content:'我是海绵宝宝'},
+			{id:1,title:'派大星',content:'我是派大星'},
+			{id:2,title:'章鱼哥',content:'我是章鱼哥'},
+		]
+		
+	},
+	components:{
+		'navigation-link':{
+			template:'<a v-bind:href="url" class="nav-link"><slot></slot></a>'		
+		},
+		'test1':{
+			template:'<a>test1模板</a>'
+		},
+		'base-layout':{//多lost模板调用
+			template:'<div><header><slot name="header"></slot></header><main><slot></slot></main><footer><slot name="footer"></slot></footer></div>'
+		},
+		'todo-list':{
+			template:'<ul><li v-for="todo in todos" v-bind:key="todo.id"><slot v-bind:todo="todo">{{todo.content}}</slot></li></ul>'
+		}
+	},
+})
+
+/**在动态组件上使用 keep-alive|组件访问data,method..并且使用
+ * html中在keep-alive标签内的组件，会进入缓存，在更换的时候不会重写实例化，会在缓存中调用
+ * 这里的temp-b在HB的网页中可以显示，在浏览器中错误，有点迷。。。
+ * 
+ * 组件访问实例的方法与数据
+ * 	$root访问根数据，Data访问：this.$root..|$root..,方法访问:$root..
+ * 	this.$root.foo		访问根组件数据
+ * 	this.$root.foo=2	写入根组件数据
+ * 	this.$root.bar		访问根组件计算属性
+ * 	this.$root.baz		访问根组件方法属性
+ */
+var app18=new Vue({
+	el:"#app-18",
+	data:{
+		demo:'temp-a',
+		todos:[
+			{id:0,title:'海绵宝宝',content:'我是海绵宝宝，海面海绵~~'},
+			{id:1,title:'派大星',content:'我是派大星，海星海星~~'},
+			{id:2,title:'章鱼哥',content:'我是章鱼哥，嘟嘟嘟~~'},
+		],
+		content:'空'
+	},
+	components:{
+		'temp-a':{
+			template:"<a style='color:red'>this is tempA</a>"
+		},
+		'temp-b':{
+			template:"<table style='border:3px solid orange'><tr><td style='cursor:pointer' v-for='todo in this.$root.todos' @click='$root.show(todo.id)'> |{{todo.title}}| </td></tr><tr><td style='border:2px solid red' colspan='3'>{{this.$root.content}}</td></tr></table>"
+		},
+		'temp-c':{
+			template:"<input ref='app18Input'>"
+		}
+	},
+	methods:{
+		'changed':function(){
+			if(this.demo=='temp-a')this.demo='temp-b';
+			else this.demo='temp-a'
+		},
+		'show':function(id){
+			this.content=this.todos[id].content
+//			this.$refs.Input.focus()
+		}
+	}
+})
+
+/**异步组件
+ * 创建组件后跟function()
+ * 	两个参数，参数一resolve:组件加载成功时，执行。参数二reject:组件加载失败时
+ * 	加载成功后，执行resolve:参数：需要执行的命令，可以是alert(1)，可以是{template:'...'}创建组件
+ * 这里效果一秒后出现i am async
+ */
+var app19=new Vue({
+	el:'#app-19',
+	components:{
+		'async-example':function(resolve,reject){
+			setTimeout(function(){
+				resolve({
+					template:'<div>I am async!</div>'
+				})
+			},1000)
+		}
+	}
+})
+
+/**过渡效果
+ * 提供show参数为v-if判断来是否显示
+ * 具体效果在css中实现
+ */
+var app20=new Vue({
+	el:'#app-20',
+	data:{
+		show:true,
+		msg:'',
+		or:'no'
+	},
+	methods:{
+		state:function(val){
+			this.msg+=' '+val
+		},
+		ifnot:function(){
+			if(this.or=='no')this.or='off'
+			else this.or='no'
+		}
+	}
+})
+
+/**组建过度
+ * 
+ */
+var app21=new Vue({
+	el:"#app-21",
+	data:{
+		view:'v-a'
+	},
+	components:{
+		'v-a':{
+			template:'<div>Component A</div>'
+		},
+		'v-b':{
+			template:'<div>Component B</div>'
+		}
+	}
+})
+
+/** 平滑过渡插件使用
+ * shuffle()洗牌函数，参数数组，将内容打乱返回
+ * _.	下划线好像是选中列表内容,是平滑过渡插件提供
+ */
+var app22=new Vue({
+ 	el:"#app-22",
+ 	data:{
+ 		items:[1,2,3,4,5,6,7,8,9]
+ 	},
+ 	methods:{
+ 		shuffle:function(){
+ 			this.items=_.shuffle(this.items);
+ 		}
+ 	}
+ })
+
+/** 列表进入|离开过渡
+ * 
+ */
+var app23=new Vue({
+	el:"#app-23",
+	data:{
+		items:[1,2,3,4,5,6,7,8,9],
+		Number:10
+	},
+	methods:{
+		randomIndex:function(){
+			return Math.floor(this.items.length*Math.random());//取随机下标
+		},
+		add:function(){
+//			alert(this.randomIndex());
+			this.items.splice(this.randomIndex(),0,this.Number++);
+		},
+		remove:function(){
+			this.items.splice(this.randomIndex(),1);
+		},
+		shuffle:function(){
+			this.items=_.shuffle(this.items);
+		}
+		
+	}
+})
+
+/**render使用
+ * 不停的调用自身，直到不成立则停止
+ * 组件里，不停的创建模板使用
+ * render:function(createElement){...}	//重复调用的代码，方法内为此重复调用的代码一直使用的函数
+ * 	createElement('标签',内容)	创建应用
+ */
+var app24=new Vue({
+	el:"#app-24",
+	data:{
+		todos:[
+			{id:0,title:'海绵宝宝',content:'我是海绵宝宝'},
+			{id:1,title:'派大星',content:'我是派大星'},
+			{id:2,title:'章鱼哥',content:'我是章鱼哥'},
+		]
+	},
+	components:{
+		'render-test':{
+			render:function(createElement){
+				if(this.$root.todos.length){//数组有内容
+					return createElement('ul',this.$root.todos.map(function(todo){//创建ul
+						return createElement('li',todo.title)//创建li
+					}))	
+				}else{//数组没有内容
+					return createElement('span','No todos found')
+				}
+				
+			}
+		}
 	}
 })

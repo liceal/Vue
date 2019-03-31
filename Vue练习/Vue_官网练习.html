@@ -310,9 +310,174 @@
 				</blog-post>
 			</div>
 		</div>
+		<hr />
+		<div id="app-17">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-24
+            	描述：slot插槽
+            	默认插槽(匿名插槽)：默认插入的html代码会存放在默认插槽中 插槽提供显示
+            	具名插槽：可以template 使用slot给名，或者直接对标签 slot给名 来为这个标签提供插槽
+            		插槽可以多次使用
+            	
+            -->
+			<navigation-link url="/profile">
+				 insert slot(<test1></test1>)<br />
+				 <base-layout>
+				 	<template slot="header">
+				 		<h3>header 命名插槽</h3>
+				 	</template>
+				 	
+				 	<h3>main 默认插槽</h3>
+				 	
+				 	<h3 slot="footer">footer 命名插槽</h3>
+				 	<h3 slot="footer">footer2 命名插槽</h3>
+				 	
+				 </base-layout>
+				 </navigation-link>
+		</div>
+		<hr />
+		<div id="app-18">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-25
+            	描述：动态组件keep-alive使用
+            	在keep-alive标签中的组件会进入缓存
+            -->
+			<input type="button" @click="changed" v-model="demo"/>
+			<br />
+			<keep-alive>
+			<span v-bind:is='demo'></span>
+			</keep-alive>
+			<span is="temp-c"></span>
+		</div>
+		<hr />
+		<div id="app-19">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-26
+            	描述：异步组件
+            	这里只实现简单的等待一秒出现效果，详情看js注解
+            -->
+			<async-example></async-example>
+		</div>
+		<hr />
+		<div id="app-20">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-26
+            	描述：过渡效果
+            	<transition>里面的标签可以实现过渡效果</transition>
+            	赋予name 为css选中 选中方式跟class相同
+            	通过v-if为true|false来改变显示
+            	enter-active|leave-active|enter-to.... + -class可以自定义各效果用的过渡样式
+            	第0个过渡：出现消失
+            	第1个过渡：出现消失+移动
+            	第2种过渡：出现消失+关键帧效果
+            	第3种过渡：出现+消失+关键帧效果+自定义过渡的类名
+            	第4种过渡：在过渡过程中，达到过程后执行某个方法
+            	...
+           -->
+           	<div class="app20-div">
+				<transition name="app20">
+					<p v-if="show">hello</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-1">
+					<p v-if="show">hello-1</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-2">
+					<p v-if="show">hello-2</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-3"
+					enter-active-class="app20-3-show"
+					leave-active-class="app20-3-hide">
+					<p v-if="show">hello-3</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-4"
+					v-on:before-enter="state('beforeEnter')"
+					@enter="state('enter')"
+					@enter-to="state('enter-to')"
+					@before-leave="state('before-leave')"
+					@leave="state('leave')"
+					@leave-to="state('leave-to')">
+					<p v-if="show">hello-4</p>
+				</transition>
+			</div>
+			<input v-model="msg" /><br />
+			<div>
+				<!--in-out：先进后出，新元素先进行过渡，完成之后当前元素过渡离开。-->
+				<!--out-in：先出后进，当前元素先进行过渡，完成之后新元素过渡进入。-->
+				<transition name="app20-5" mode="in-out">
+					<!--加key实现双过渡-->
+					<button v-bind:key="show">
+						{{show ? 'on' : 'off'}}
+					</button>
+				</transition>
+				<br />
+			</div>
+			<button v-on:click="show=!show,msg=''">
+				Toggle
+			</button>
+		</div>
+		<hr />
+		<!--
+        	作者：675024132@qq.com
+        	时间：2019-01-29
+        	描述：组件过渡
+        -->
+		<div id="app-21">
+			<input type="radio" name="xx" @click="view='v-a'" />ComponentA
+			<input type="radio" name="xx" @click="view='v-b'" />ComponentB
+			<transition name="app21" mode="out-in">
+				<component :is="view"/>
+			</transition>
+		</div>
+		<hr />
+		<!--
+        	作者：675024132@qq.com
+        	时间：2019-01-29
+        	描述：使用外部新插件，进行平滑过渡，使用v-move,使用transition-group,tag属性
+        	平滑过渡插件提供 -move属性，css中 .Name-move使用
+        	tag，标签属性，为transition-group提供可用标签名进行渲染
+        -->
+        <div id="app-22">
+        	<button @click="shuffle">shuffle</button>
+        	<transition-group name="app22-fileList" tag="ul">
+        		<li v-for="item in items" v-bind:key="item">
+        			{{item}}
+        		</li>
+        	</transition-group>
+        </div>
+		<hr />
+		<div id="app-23">
+			<button @click="shuffle">shuffle</button>
+			<button @click="add">Add</button>
+			<button @click="remove">Remove</button><br />
+			<transition-group name="app23" tag="p">
+				<span v-for="item in items" :key="item" class="list-item"> {{item}} </span>
+			</transition-group>
+		</div>
+		<hr />
+		<div id="app-24">
+			<render-test></render-test>
+		</div>
+		<hr />
 	</body>
 	<link type="text/css" rel="stylesheet" href="css/Vue_官网练习.css" />
 	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!--同上-->
+	<script src="js/vue.js"></script>
 	<script src="js/Vue_官网练习.js"></script>
+	<!--平滑过渡插件-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+	
 </html>
