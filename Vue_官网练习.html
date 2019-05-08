@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：网页获取键值，此处参数为键
+            -->
+			{{message}}
+		</div>
+		<hr />
+		<div id="app-2">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-bind：设置指定属性为指定键值
+            	这里设置	title="message"键值
+            -->
+			<span v-bind:title="message">
+				鼠标悬停几秒钟查看此处动态绑定的提示信息
+			</span>
+		</div>
+		<hr />
+		<div id="app-3">
+			<!--
+	        	作者：675024132@qq.com
+	        	时间：2018-12-21
+	        	描述：v-if: 设置判断条件
+	        	这里设置seen，默认为true,可==或者其他符号判断
+	        -->
+			<p v-if="seen">现在你看到我了</p>
+		</div>
+		<hr />
+		<div id="app-4">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-for:设置循环参数
+            	此参数todo in todos：
+            		todo为自己创建的值，todos为数组
+            		这里遍历todos数组，将每一个内容给todo
+            	然后输出todo.text
+            		text为键，返回对应值
+            	
+            	另外写了v-if判断number是否小于0
+            	@click按钮事件，执行简单操作，类似C
+            	
+            	在数据进行改变时，全局都会受到改变，不需要出发点击或者任何刷新事件。
+            -->
+			<ol>
+				<li v-for="todo in todos">
+					{{todo.text}} 知识储量=>{{todo.number}}
+					<span v-if="todo.number<0">
+						 - 没有知识了 - 
+					</span>
+					<button @click="todo.number+=1">
+						增加
+					</button>
+					<button @click="todo.number-=1">
+						减少
+					</button>
+				</li>
+			</ol>
+		</div>
+		<hr />
+		<div id="app-5">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-on:click：设置点击事件
+            		参数为一个键
+            		键中定义了一个方法，详情请看下面注解
+            -->
+			<p>{{message}}</p>
+			<button v-on:click="reverseMessage">逆转消息</button>
+		</div>
+		<hr />
+		<div id="app-6">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：v-model替代value输出内容
+            	网页文本内容可以用{{}}
+            	对于value或者其他非网页直接内容
+            	获取vue传递参数，需要v-model="键"	传递返回值
+            -->
+			<p>{{message}}</p>
+			<input type="text" v-model="message" />
+		</div>
+		<hr />
+		<div id="app-7">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-21
+            	描述：使用自定义创建组件todo-item
+            	v-for：遍历groceryList数组中的数据，每一组键赋值给item变量返回
+            	v-bind:设置todo属性为item,todo是自定义的子组件
+            	v-bind:设置key属性为item.id，key是特殊属性，指每组数据里的键值
+            	
+            	页面输出了数组里的所有元素在有序列表内
+            	在模块中，有模块template设置了静态组件，
+            	这里将todo的值设置成数组遍历里的每一组数据
+            		todo==每组数据
+            	这里将key的值设置成遍历出来的每组数据中的键值
+            		key==每组数据键值   TIPS：这里键没用排上用场。。。。
+            	之后返回数据给模块输出
+            -->
+			<ol>
+	            <todo-item
+	            	v-for="item in groceryList"
+	            	v-bind:todo="item"
+	            	v-bind:key="item.id">
+	            </todo-item>
+			</ol>	
+		</div>
+		<hr />
+		<div id="app-8">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单测试computed与methods属性测试数据
+            -->
+			<p>Original message[原始消息]:"{{message}}"</p>
+			<p>Computed reversed message[计算反转后的消息]:"{{reversedMessage}}"</p>
+		</div>
+		<hr />
+		<div id="app-9">
+			<!--
+        		作者：675024132@qq.com
+        		时间：2018-12-22
+       		 	描述：测试计算属性里默认方法 'get' 'set'
+	        	1.调用时，默认使用get的方法
+	        	2.进行赋值时，在设置完后会改变全局，默认调用set方法，这里返回值为设置完的值，
+	        	3.返回默认值，这里受到set的影响会改变值
+	        	4.同理
+	        -->
+			{{fullName}}<br />
+			{{fullName='lin xian ao'}}<br />
+			{{firstName}}<br />
+			{{lastName}}<br />
+		</div>
+		<hr />
+		<div id="app-10">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单的watch监听器测试
+            	尝试改变question，这里会改变answer的值
+            -->
+			<p>
+				Ask a yes/no question:
+				<input v-model="question">
+			</p>
+			<p>{{answer}}</p>
+		</div>
+		<hr />
+		<div id="app-11" >
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：class与style的绑定
+            	v-bind:class绑定class	v-bind:style绑定style
+            	判断输入的值来改变div方块绑定那些class
+            	默认为green 1:red 2:blue 3:border-radius:50px;
+            -->
+			尝试输入 {1,2,3} <input v-model="control" v-bind:style="styleObject"/>
+			<div class="active" v-bind:class="classObject">
+			</div>
+		</div>
+		<hr />
+		<div id="app-12">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：简单的for循环迭代
+            	object为一个数组
+            	in是指代 像=>一样
+            	() 可以填至多三个参数
+            	参数1：值	2：键	3：下标
+            -->
+			<ul>
+				<li v-for="(value,key,index) in object">
+					下标：{{index}}=>键：{{key}}=>值：{{value}}
+				</li>
+			</ul>
+		</div>
+		<hr />
+		<div id="app-13">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-22
+            	描述：捕获按钮鼠标事件，当按下指定按键时，触发指定函数
+            	按钮别名：
+            		.enter	回车
+					.tab	tab键
+					.delete (捕获“删除”和“退格”键)
+					.esc	esc键
+					.space	空格
+					.up	上
+					.down	下
+					.left	左
+					.right	右
+            	f1是自定义事件 详情看js注解
+            	.exact 精准修饰符
+            		加了这个后此键不能组合，不加此修饰符可以组合键
+            	鼠标修饰符：
+            		.left	左键
+            		.right	右键
+            		.middle	中建
+            -->
+			<input v-on:keyup.enter="submit" placeholder="按回车"/>
+			<input @keyup.delete="submit" placeholder="按删除或者回格"/>
+			<input @keyup.f1="submit" placeholder="按f1"/>
+			<button @click.ctrl="submit">ctrl | ctrl+任意键</button>
+			<button @click.ctrl.exact="submit">ctrl</button>
+			<button @click.left.exact="submit">鼠标左键</button>
+			<button @click.right.exact="submit">鼠标右键</button>
+			<button @click.middle.exact="submit">鼠标中间</button>
+		</div>
+		<hr />
+		<div id="app-14">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：表单输入绑定的用法
+            	基本就是，被选中的值本来是被赋值到value中的
+            	这里用v-model代替了value
+            	当替换值的时候，v-model里就有了值
+            	然后下面再输出这个值，每次被选中时，这里关于这个变量都会改变，也是vue的特点
+            	修饰符：
+            	lazy:在change时改变，非input时更新
+            	number:转为数值形式，如果这个值无法被parseFloat()解析则返回原字符
+            	trim:过滤首位空白符
+            	
+            -->
+			<input type="text" v-model.lazy.number.trim="message1" placeholder="edit me"/>
+			<p>文本Message1 is:{{message1}}</p>
+			<input type="checkbox" v-model="message2"/>
+			<label>Message2:{{message2}}</label>
+			<br />
+			<br />
+			<input type="checkbox" value="jack" v-model="message3" /><label>jack</label>
+			<input type="checkbox" value="john" v-model="message3" /><label>john</label>
+			<input type="checkbox" value="Mike" v-model="message3" /><label>Mike</label>
+			<span>message3:{{message3}}</span>
+			<br />
+			<br />
+			<input type="radio" value="One" v-model="message4" /><label>One</label>
+			<input type="radio" value="Two" v-model="message4" /><label>Two</label>
+			<span>Message4:{{message4}}</span>
+			<br />
+			<br />
+			<select v-model="message5">
+				<option disabled>请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+			</select>
+			<span>Message5:{{message5}}</span>
+			<br />
+			<br />
+			<select v-model="message6" multiple="multiple">
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+			</select>
+			<span>Message6:{{message6}}</span>
+			<br />
+			<br />
+			<select v-model="message7">
+				<option v-for="option in options" v-bind:value="option.value">
+					{{option.text}}
+				</option>
+			</select>
+			<span>{{message7}}</span>
+		</div>
+		<hr />
+		<div id="app-15">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：复用组件
+            	详情看js注解
+            -->
+			<button-counter tit='按钮' val='小野菊'></button-counter>
+			<button-counter tit='人物' val='周树人'></button-counter>
+			<button-counter tit='技能' val='买橘子'></button-counter>
+		</div>
+		<hr />
+		<div id="app-16">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2018-12-23
+            	描述：通过事件向父级组件发送消息
+            	未完成
+            	迭代了数据
+            	对自定义属性post赋值迭代内容
+            -->
+			<div>
+				<blog-post
+					v-for="post in posts"
+					v-bind:post="post"
+					>
+					
+				</blog-post>
+			</div>
+		</div>
+		<hr />
+		<div id="app-17">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-24
+            	描述：slot插槽
+            	默认插槽(匿名插槽)：默认插入的html代码会存放在默认插槽中 插槽提供显示
+            	具名插槽：可以template 使用slot给名，或者直接对标签 slot给名 来为这个标签提供插槽
+            		插槽可以多次使用
+            	
+            -->
+			<navigation-link url="/profile">
+				 insert slot(<test1></test1>)<br />
+				 <base-layout>
+				 	<template slot="header">
+				 		<h3>header 命名插槽</h3>
+				 	</template>
+				 	
+				 	<h3>main 默认插槽</h3>
+				 	
+				 	<h3 slot="footer">footer 命名插槽</h3>
+				 	<h3 slot="footer">footer2 命名插槽</h3>
+				 	
+				 </base-layout>
+				 </navigation-link>
+		</div>
+		<hr />
+		<div id="app-18">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-25
+            	描述：动态组件keep-alive使用
+            	在keep-alive标签中的组件会进入缓存
+            -->
+			<input type="button" @click="changed" v-model="demo"/>
+			<br />
+			<keep-alive>
+			<span v-bind:is='demo'></span>
+			</keep-alive>
+			<span is="temp-c"></span>
+		</div>
+		<hr />
+		<div id="app-19">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-26
+            	描述：异步组件
+            	这里只实现简单的等待一秒出现效果，详情看js注解
+            -->
+			<async-example></async-example>
+		</div>
+		<hr />
+		<div id="app-20">
+			<!--
+            	作者：675024132@qq.com
+            	时间：2019-01-26
+            	描述：过渡效果
+            	<transition>里面的标签可以实现过渡效果</transition>
+            	赋予name 为css选中 选中方式跟class相同
+            	通过v-if为true|false来改变显示
+            	enter-active|leave-active|enter-to.... + -class可以自定义各效果用的过渡样式
+            	第0个过渡：出现消失
+            	第1个过渡：出现消失+移动
+            	第2种过渡：出现消失+关键帧效果
+            	第3种过渡：出现+消失+关键帧效果+自定义过渡的类名
+            	第4种过渡：在过渡过程中，达到过程后执行某个方法
+            	...
+           -->
+           	<div class="app20-div">
+				<transition name="app20">
+					<p v-if="show">hello</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-1">
+					<p v-if="show">hello-1</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-2">
+					<p v-if="show">hello-2</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-3"
+					enter-active-class="app20-3-show"
+					leave-active-class="app20-3-hide">
+					<p v-if="show">hello-3</p>
+				</transition>
+			</div>
+			<div class="app20-div">
+				<transition name="app20-4"
+					v-on:before-enter="state('beforeEnter')"
+					@enter="state('enter')"
+					@enter-to="state('enter-to')"
+					@before-leave="state('before-leave')"
+					@leave="state('leave')"
+					@leave-to="state('leave-to')">
+					<p v-if="show">hello-4</p>
+				</transition>
+			</div>
+			<input v-model="msg" /><br />
+			<div>
+				<!--in-out：先进后出，新元素先进行过渡，完成之后当前元素过渡离开。-->
+				<!--out-in：先出后进，当前元素先进行过渡，完成之后新元素过渡进入。-->
+				<transition name="app20-5" mode="in-out">
+					<!--加key实现双过渡-->
+					<button v-bind:key="show">
+						{{show ? 'on' : 'off'}}
+					</button>
+				</transition>
+				<br />
+			</div>
+			<button v-on:click="show=!show,msg=''">
+				Toggle
+			</button>
+		</div>
+		<hr />
+		<!--
+        	作者：675024132@qq.com
+        	时间：2019-01-29
+        	描述：组件过渡
+        -->
+		<div id="app-21">
+			<input type="radio" name="xx" @click="view='v-a'" />ComponentA
+			<input type="radio" name="xx" @click="view='v-b'" />ComponentB
+			<transition name="app21" mode="out-in">
+				<component :is="view"/>
+			</transition>
+		</div>
+		<hr />
+		<!--
+        	作者：675024132@qq.com
+        	时间：2019-01-29
+        	描述：使用外部新插件，进行平滑过渡，使用v-move,使用transition-group,tag属性
+        	平滑过渡插件提供 -move属性，css中 .Name-move使用
+        	tag，标签属性，为transition-group提供可用标签名进行渲染
+        -->
+        <div id="app-22">
+        	<button @click="shuffle">shuffle</button>
+        	<transition-group name="app22-fileList" tag="ul">
+        		<li v-for="item in items" v-bind:key="item">
+        			{{item}}
+        		</li>
+        	</transition-group>
+        </div>
+		<hr />
+		<div id="app-23">
+			<button @click="shuffle">shuffle</button>
+			<button @click="add">Add</button>
+			<button @click="remove">Remove</button><br />
+			<transition-group name="app23" tag="p">
+				<span v-for="item in items" :key="item" class="list-item"> {{item}} </span>
+			</transition-group>
+		</div>
+		<hr />
+		<div id="app-24">
+			<render-test></render-test>
+		</div>
+		<hr />
+	</body>
+	<link type="text/css" rel="stylesheet" href="css/Vue_官网练习.css" />
+	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!--同上-->
+	<script src="js/vue.js"></script>
+	<script src="js/Vue_官网练习.js"></script>
+	<!--平滑过渡插件-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+	
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>拼图</title>
+</head>
+
+<body>
+	<div id="jigsaw">
+		<!-- <span class="title">{{name}}</span> -->
+		<button @click="shuffle">shuffle</button>
+		<div class="content">
+			<transition-group>
+				<div v-for="(todo,id) in todos" :key="todo" class="allPart">
+					<li v-if="todo==0" :key="todo" class="empty"></li>
+					<li v-if="todo!=0" class="part" @click="moved(id)"
+						:style="{backgroundPositionX:js_bgX(todo)+'px',backgroundPositionY:js_bgY(todo)+'px'}"></li>
+				</div>
+			</transition-group>
+		</div>
+	</div>
+</body>
+
+<script src="js/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+<script>
+	var jigsaw = new Vue({
+		el: '#jigsaw',
+		data() {
+			return {
+				name: '海绵宝宝',
+				todos: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+				bgX: 0,
+				bgY: 0,
+			}
+		},
+		methods: {
+			shuffle: function () {
+				// var len = this.todos.length;
+				// for (var i = 0; i < len - 1; i++) {
+				// 	var index = parseInt(Math.random() * (len - i));
+				// 	var temp = this.todos[index];
+				// 	//用$set更新数组内容可以触发重新渲染
+				// 	this.$set(this.todos, index, this.todos[len - i - 1]);
+				// 	this.todos[len - i - 1] = temp;
+				// }
+
+				//FLIP动画队列  _.shuffle(array) 打乱array
+				this.todos = _.shuffle(this.todos)
+			},
+			moved: function (id) {
+				//$set(array,index,value) array[index] = value
+				let temp = this.todos[id];
+				if (id - 1 >= 0 && this.todos[id - 1] == 0 && (id + 1) % 4 != 1) {//left
+					this.$set(this.todos, id, 0);
+					this.$set(this.todos, id - 1, temp);
+				} else if (id + 1 <= 15 && this.todos[id + 1] == 0 && (id + 1) % 4 != 0) {//right
+					this.$set(this.todos, id, 0);
+					this.$set(this.todos, id + 1, temp);
+				} else if (id - 4 >= 0 && this.todos[id - 4] == 0) {//up
+					this.$set(this.todos, id, 0);
+					this.$set(this.todos, id - 4, temp);
+				} else if (id + 4 <= 15 && this.todos[id + 4] == 0) {//dowm
+					this.$set(this.todos, id, 0);
+					this.$set(this.todos, id + 4, temp);
+				}
+			},
+			js_bgX(todo) { //计算图片x轴偏移量
+				return -((todo - 1) % 4) * 100;
+			},
+			js_bgY(todo) { //计算图片y轴偏移量
+				return -parseInt((todo - 1) / 4) * 100;
+			},
+		},
+		mounted: function () {
+			this.shuffle();
+		},
+		watch: {
+			todos: function (val) {
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
+				if (val.join('') == arr.join('')) {
+					alert('恭喜通关');
+				}
+			}
+		},
+	})
+</script>
+
+<style>
+	.title {
+		position: relative;
+		top: 50px;
+	}
+
+	.content {
+		border: 2px solid black;
+		margin: 0 auto;
+		width: 400px;
+		height: 400px;
+	}
+
+	.part {
+		width: 98px;
+		height: 98px;
+		/*background-color: orange;*/
+		color: red;
+		text-align: center;
+		line-height: 50px;
+		float: left;
+		border: 1px solid #DCDCDC;
+		list-style-type: none;
+		background-image: url(img/spongeBob.jpg);
+		background-size: 400px 400px;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		/* box-shadow: 0px 0px 20px 2px black; */
+		/* z-index: 1; */
+	}
+
+	.empty {
+		width: 100px;
+		height: 100px;
+		/* box-shadow: 0px 0px 20px 3px black inset; */
+		float: left;
+		list-style-type: none;
+	}
+
+	.allPart {
+		transition: all .3s;
+		display: flex;
+		flex-direction: row;
+		float: left;
+		/* flex-wrap:wrap; */
+	}
+</style>
+
+</html>

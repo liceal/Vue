@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>element</title>
+		<!-- import CSS -->
+  		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	</head>
+	
+	<body>
+		<div id="element">
+			<fieldset>
+				<legend>el-button|el-dealog</legend>
+				<el-button @click="visible=true">button</el-button>
+				<el-dialog :visible.sync="visible" title="hello world">
+					this is el-dealog
+				</el-dialog>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Layout</legend>
+				<!--el-row行块
+            		每个占一行，内部写el-col
+            	el-col列块
+            		每个占一列
+            	:span 宽度百分比(0-24)
+            		最大24宽度占满，0则消失-->
+				<el-row>
+					<el-col :span="24"><div style="background: red;height: 30px;margin-bottom: 10px;"></div></el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="21"><div style="background: yellow;height: 30px;margin-bottom: 10px;"></div></el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="12"><div style="background: blue;height: 30px;margin-bottom: 10px;"></div></el-col>
+					<el-col :span="12"><div style="background: green;height: 30px;margin-bottom: 10px;"></div></el-col>
+				</el-row>
+				<!--:gutter 设置分栏之间的距离-->
+				<el-row :gutter="20">
+					<el-col :span="6"><div class="layoutPart"></div></el-col>
+					<el-col :span="6"><div class="layoutPart"></div></el-col>
+					<el-col :span="6"><div class="layoutPart"></div></el-col>
+					<el-col :span="6"><div class="layoutPart"></div></el-col>
+				</el-row>
+				<!--:offset 分栏偏移
+					在这个元素的前面偏移(n/24*总宽度)的距离
+					push 向右移动格数
+					pull 向左移动格数-->
+				<el-row :gutter="20">
+					<el-col :span="6" :offset="3"><div class="layoutPart"></div></el-col>
+					<el-col :span="6" :offset="6"><div class="layoutPart"></div></el-col>
+				</el-row>
+				<!--type=flex 开启flex布局模式
+				justify 设置子元素水平排版方式
+					start：开头对齐,类似float='left'
+					end: 结尾对齐,类似float='right'
+					space-between: 平均全部填充，两边顶到头
+					space-around: 平均填充,所有元素左右距离一致
+				align 设置子元素垂直排版方式
+					top/middle/botton-->
+				<el-row type="flex" justify="space-around">
+					<el-col :span="5"><div class="layoutPart"></div></el-col>
+					<el-col :span="5"><div class="layoutPart"></div></el-col>
+					<el-col :span="5"><div class="layoutPart"></div></el-col>					
+					<el-col :span="5"><div class="layoutPart"></div></el-col>				
+				</el-row>
+				<!--响应式布局xs,sm,md,lg,xl
+				在显示界面不同的情况下用不同的百分比布局 效果跟span一样
+				xs:最小,sm:小,md:中,lg:大,xl:超大
+				tips:相比hb自带的是小，电脑的浏览器是大-->
+				<el-row :gutter="10">
+					<el-col :xs="21" :sm="21" :md="21" :lg="21" :xl="21"><div class="layoutPart"></div></el-col>
+					<el-col :xs="3" :sm="24" :md="24" :lg="3" :xl="24"><div class="layoutPart"></div></el-col>
+				</el-row>
+			</fieldset>
+			
+			<fieldset>
+				<!--el-container布局容器
+					el-header顶部布局 默认高度60px
+					el-aside 侧边布局 默认宽度300px
+					el-main  主体布局
+					el-footer底部布局 默认高度60px
+					这四个在布局容器中垂直布局
+				用其他的则默认水平布局-->
+				<legend>Container 布局容器</legend>
+				<el-container :gutter="10">
+					<el-header>Header</el-header>
+					<el-container>
+					<el-aside>Aside</el-aside>
+					<el-container>
+						<el-main>Main</el-main>
+						<el-footer>Footer</el-footer>
+					</el-container>
+  					</el-container>
+				</el-container>
+			</fieldset>
+			
+			<fieldset>
+				<!--添加class绑定指定图标
+				具体图标 http://element-cn.eleme.io/#/zh-CN/component/icon
+				type绑定按钮样式
+				具体样式 http://element-cn.eleme.io/#/zh-CN/component/button-->
+				<legend>icon|button</legend>
+				<i class="el-icon-edit"></i>
+				<i class="el-icon-share"></i>
+				<i class="el-icon-delete"></i>
+				<el-button type="primary" icon="el-icon-search">搜索</el-button>
+			</fieldset>
+			
+			<fieldset>
+				<!--el-radio单选框 el-radio-button单选框按钮 样式不同其他一样
+				v-model绑定值(分类),同一个model单选只有一个,选中的值将存放在model里的变量中，存放内容为label值
+				border 加边框
+				disabled 禁用
+				el-radio-group 单选组，本身需要绑定值，此值为所有子元素绑定值-->
+				<legend>Radio 单选框</legend>
+				<el-radio v-model="text" label="1">1</el-radio>
+  				<el-radio v-model="text" label="2" border>2</el-radio>
+  				<el-radio v-model="text" label="3" disabled>3</el-radio>
+  				<el-radio-group v-model="text">
+	  				<el-radio-button label="上海"></el-radio-button>
+	  				<el-radio-button label="北京" disabled></el-radio-button>
+	  				<el-radio-button label="深圳"></el-radio-button>
+  				</el-radio-group>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Checkbox 多选框</legend>
+				<!--复选框的model为数组，存放选中多个结果，如果有label是label值，否则是boolean
+					min 最少选择个数  max 最多选择个数
+				-->
+				<el-checkbox-group v-model="checked" :min="1" :max="2">
+					<el-checkbox label="1"></el-checkbox>
+					<el-checkbox label="2"></el-checkbox>
+					<el-checkbox label="3"></el-checkbox>
+				</el-checkbox-group>
+				<!--indeterminate不确定选中，效果显示符号'-'，参数true|false
+					border加边框
+				-->
+				<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="checkAllchange()">全选</el-checkbox>
+				<el-checkbox-group v-model="checkedCities" @change="checkedchange()">
+					<el-checkbox v-for="city in cities" :label="city" :key="city" border>{{city}}</el-checkbox>
+				</el-checkbox-group>
+				<!--el-checkbox-button复选按钮，用法跟复选框一样
+				其中group中  size属性 (参数 medium大/ small中 / mini小)
+					控制el-checkbox-button大小-->
+				<el-checkbox-group v-model="checkedButtonCities" size="mini">
+					<el-checkbox-button v-for="city in cities" :label="city" :key="city" ></el-checkbox-button>
+				</el-checkbox-group>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Input 输入框</legend>
+				<!--:disabled 禁用
+				clearable 可清除的，输入东西右边有叉叉
+				prefix-icon="图标名" 前缀图标
+				suffix-icon="图标名" 后缀图标
+				任意标签+slot="prefix前缀|suffix后缀" class="el-input__icon 图标名" 添加前|后图标-->
+				<el-input v-model="input"
+				placeholder="请输入内容"
+				clearable
+				prefix-icon="el-icon-search"
+				>
+				<a href="#" slot="suffix" class="el-input__icon el-icon-date"></a></el-input>
+				<!--type="textarea" 文本框
+				:rows="number"	显示文本高度
+				autosize 自适应大小，输入内容换行，自动扩大文本框
+				:autosize="{minRows:number,maxRows:number}" 指定最大最小自适应高度-->
+				<el-input v-model="input"
+				type="textarea"
+				placeholder="请输入内容"
+				:autosize="{minRows:2,maxRows:3}"
+				:rows='2'></el-input>
+				<!--复合型输入框
+				任意标签+slot="prepend前面追加|append后面追加" 实现组合
+				输入框+size="large大|small小|mini迷你" 调整输入框的大小-->
+				<el-input v-model="input"
+				placeholder="请输入内容"
+				size="mini">
+					<a slot="prepend">Http://</a>
+					<a slot="append">.com</a>
+				</el-input>
+				<!--el-autocomplate 给出下拉框建议的输入框
+				:fetch-suggestions 返回下拉建议,检查文本内容，向函数传递文本内容函数可以放回下拉建议
+				自定义模板 远程搜索 具体看 http://element-cn.eleme.io/#/zh-CN/component/input-->
+				<el-autocomplete v-model="input"
+				:fetch-suggestions="querySearch"
+				placeholder="请输入内容"
+				style="width: 100%;">
+					<a slot="prepend">Http://</a>
+					<a slot="append">.com</a>
+				</el-autocomplete>
+				<button :disabled="visible">1111</button>
+			</fieldset>
+			
+			<fieldset>
+				<!--el-input-number计数器，两边有加减控制中间数字变动
+				:min :max 最小最大值
+				:step 每次增减大小
+				:precision 显示小数点后几位
+				size="medium|small|mini" 控件大小
+				controls-position="right|默认"	按钮位置，默认两边-->
+				<legend>InputNumber 计数器</legend>
+				<el-input-number v-model="number" 
+				:min="1" 
+				:max="10"
+				:step="1.5"
+				:precision="2"
+				size="mini"
+				controls-position="right"
+				></el-input-number>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Select 选择器</legend>
+				<!--el-select选择器 el-option选择的条目
+				clearable 可删除，当里面有内容，右边会提供一个叉叉用来清除所有内容
+				multiple 复选，每次选择都回填入框内，保存在v-model中
+				:key 唯一识别，减少内存
+				:value 每个选项选中后，文本内显示的值
+				:disabled 是否不可选 true不可选
+				在option内写条目内容，顶替默认value显示条目内容-->
+				<el-select placeholder="请选择" v-model="select" clearable multiple>
+					<el-option v-for="todo in todos"
+					:key="todo.id"
+					:value="todo.title"
+					:disabled="todo.disabled">
+					<span>{{todo.title}}</span>
+					<span>{{todo.content}}</span>
+					</el-option>
+				</el-select>
+				<!--multiple 可复选
+				collapse-tags 复选形式为(第一个选择内容+选择个数)
+				filterable 可搜索，内容填入关键字，自动索引条目，很好的功能
+				allow-create 允许创建新条目，配合filterable使用，可填入内容
+				default-first-option 按下回车匹配选中项，配合allow-create创建新条目
+				el-option-group 选项组，可以分组，原理可以使用二维键值队数组
+					group组 需要用label存放内容-->
+				<el-select placeholder="请选择" v-model="select" 
+				multiple 
+				collapse-tags 
+				filterable 
+				allow-create
+				default-first-option>
+					<el-option-group v-for="group in optionGroup"
+					:key="group.label"
+					:label="group.label">
+						<el-option v-for="option in group.options"
+						:key="option.title"
+						:value="option.title">
+						</el-option>
+					</el-select-group>
+				</el-select>
+			</fieldset>
+			
+			<fieldset>
+				未实现
+				<legend>Cascader 级联选择器</legend>
+				<el-cascader :options="optionGroup"
+				v-model="cascader">
+				</el-cascader>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Switch 开关</legend>
+				<!--el-switch 开关
+				active-color 活跃颜色
+				inactive-color 不活跃颜色
+				active-text 左边内容
+				inactive 右边内容
+				active-value 活跃时传输内容
+				inactive-value 不活跃时传输内容
+				disabled 禁用状态-->
+				<el-switch v-model="Switch"
+				active-color="green"
+				inactive-color="red"
+				active-text="吃饭"
+				inactive-text="睡觉"
+				active-value="100"
+				inactive-value="0">
+				</el-switch>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Slider 滑块</legend>
+				<!--默认滑块-->
+				<el-slider v-model="slider"></el-slider>
+				<!--隐藏上面显示的数字-->
+				<el-slider v-model="slider" :show-tooltip="false"></el-slider>
+				<!--调用方法-->
+				<el-slider v-model="slider1" :format-tooltip="formatTooltip"></el-slider>
+				<!--禁用-->
+				<el-slider v-model="slider" disabled></el-slider>
+				<!--设置步长 并且显示间断点show-stops -->
+				<el-slider v-model="slider2" :step="10" show-stops></el-slider>
+				<!--在右侧显示一个输入框 可供调整数值-->
+				<el-slider v-model="slider" show-input></el-slider>
+				<!--range选区范围，:max设置最大值,并且显示间断点-->
+				<el-slider v-model="slider3" range :max="10" show-stops></el-slider>
+				<!--vertical垂直滑块，必须设置高度height-->
+				<el-slider v-model="slider" vertical height="50px"></el-slider>
+			</fieldset>
+		</div>
+	</body>
+	
+	<!-- import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<!-- import element -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="js/jquery-3.3.1.js"></script>
+	<script>
+		new Vue({
+			el:'#element',
+			data:function(){
+				return{
+					todos:[
+						{id:0,title:'海绵宝宝',content:'我是海绵宝宝'},
+						{id:1,title:'派大星',content:'我是派大星'},
+						{id:2,title:'章鱼哥',content:'我是章鱼哥'},
+						{id:3,title:'痞老板',content:'我是痞老板',disabled:true}
+					],
+					text:'hello world!',
+					checked:['1','2'],
+					checkedCities: [],
+					cities:['北京','广州','深圳','上海'],
+					checkAll:false,
+					isIndeterminate: false,
+					checkedButtonCities:[],
+					input:'',
+					urls:[
+						{value:'baidu'},
+						{value:'google'},
+						{value:'sohu'}
+					],
+					number:1,
+					select:'',
+					optionGroup:[
+						{label:"有趣的",options:[{title:'海绵宝宝'},{title:'派大星'},{title:'章鱼哥'}]},
+						{label:"可怜的",options:[{title:'痞老板'}]}
+					],
+					cascader:'',
+					Switch:true,
+					slider:10,
+					slider1:10,
+					slider2:10,
+					slider3:[2,8],
+				}
+			},
+			methods:{
+				checkedchange:function(){
+					let checked_length=this.checkedCities.length;
+					let cities_length=this.cities.length;
+					if(checked_length>0&&checked_length<cities_length){
+						this.isIndeterminate=true;
+						this.checkAll=false;
+					}else if(checked_length==0){
+						this.isIndeterminate=false;
+						this.checkAll=false;
+					}else{
+						this.isIndeterminate=false;
+						this.checkAll=true;
+					}
+				},
+				checkAllchange:function(){
+					let checked_length=this.checkedCities.length;
+					let cities_length=this.cities.length;
+					this.isIndeterminate=false;
+					if(checked_length<cities_length){
+						this.checkedCities=this.cities;
+						this.checkAll=true;
+					}else{
+						this.checkedCities=[];
+						this.checkAll=false;
+					}
+				},
+				
+				querySearch:function(queryString,cb,item){
+					//queryString 里面的内容(时刻检测)
+					//cb({"value":"返回的内容"}) 返回输入框下拉建议内容
+					//querySearch+createFilter 简单的匹配模板 匹配数据改urls
+					var restaurants = this.urls;
+     			    var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+     		 	    // 调用 callback 返回建议列表的数据
+ 				    cb(results);
+				},
+				createFilter(queryString) {
+			    	return (restaurant) => {
+			    		return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+			    	};
+			    },
+			    
+			    formatTooltip:function(val){
+			    	return val/100
+			    }
+			}
+		})
+		
+		$(document).ready(function(){
+			$('fieldset').children().not('legend').slideUp(function(){
+				$('fieldset').css('width','200px');
+			})
+		})
+		$('legend').click(function(){
+			let index=$(this).parent().index();
+			let width=$('fieldset').eq(index).css('width');
+			$(this).parent().children().not('legend').slideToggle(function(){
+				if(width!='200px'){
+					$('fieldset').eq(index).css({
+						'width':'200px'
+					})
+				}else{
+					$('fieldset').eq(index).css({
+						'width':'80%'
+					})
+				}
+			})
+		})
+	</script>
+	
+	<style>
+		fieldset{
+			width: 80%;
+			margin: 0 auto;
+			transition: all .5s ease;
+		}
+		legend{
+			text-align: center;
+			background-color: orange;
+			border-radius: 20px;
+			color: white;
+			transition: all .3s ease;
+			cursor: pointer;
+		}
+		legend:hover{
+			box-shadow: 0px 0px 20px 1px black;
+		}
+		fieldset:hover{
+			border: 2px solid orange;
+		}
+		.layoutPart{
+			background-color:#CCC;height: 30px;margin-bottom: 10px;
+		}
+		.el-header{
+			background-color: red;
+			text-align: center;
+			line-height: 60px;
+		}
+		.el-aside{
+			background-color: yellow;
+			text-align: center;
+			line-height: 200px;
+		}
+		.el-main{
+			background-color: blue;
+			text-align: center;
+			line-height: 200px;
+		}
+		.el-footer{
+			background-color: green;
+			text-align: center;
+			line-height: 60px;
+		}
+		.common{
+			width: 30%;
+		}
+	</style>
+</html>

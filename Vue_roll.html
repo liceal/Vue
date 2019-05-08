@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>输入框回放</title>
+	</head>
+	<body>
+		<div id="app">
+			<button @click="play" :disabled="disabled_play">执行</button>
+			<button @click="reset">清空</button>
+			<!-- <textarea v-model="playStr" :disabled="disabled_playStr" @input="input_change"/> -->
+			<input v-model="playStr" 
+			:disabled="disabled_playStr" 
+			@input="input_change" 
+			placeholder="慢慢输入内容后按执行"
+			style="width:500px"/>
+			<br>
+			<h2>{{str}}<strong v-if="flag_cursor">_</strong></h2>
+		</div>
+	</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+var app = new Vue({
+	el:'#app',
+	data:{
+		Data:[],
+		str:'',
+		playStr:'',
+		start_flag:false,
+		ago_time:0,
+		disabled_play:false,
+		disabled_playStr:false,
+		flag_cursor:false,
+		max_defer:3000,//最大延迟
+		cursor_time:500,//光标闪缩间隔
+	},
+	methods:{
+        play(){
+            if(this.Data.length > 0){
+                this.disabled_play = true
+                this.disabled_playStr = true
+                let i = 0
+                var set = setInterval(fn, 0);
+                let _this = this;
+                let length = this.Data.length
+                function fn() {
+                    let value = _this.Data[i]['value']
+                    let step = _this.Data[i]['step']
+                    clearInterval(set);
+                    i +=1
+                    _this.str = value
+                    _this.flag_cursor = true //显示光标
+                    if (i < length) {
+                        // console.log(value)
+                        set = setInterval(fn, step);
+                    }else{
+                        clearInterval(t)
+                        _this.reset() //重置
+                    }
+                }
+
+                //光标
+                let t = setInterval(() => {
+                    this.flag_cursor = !this.flag_cursor
+                }, this.cursor_time);
+            }
+        },
+        reset(){
+            this.disabled_play = false //按钮开启
+            this.disabled_playStr = false //字符输入开启
+            this.Data = []
+            this.start_flag = false
+            this.playStr = ''
+            this.flag_cursor = false
+            console.log('重置成功')
+        },
+        input_change(input){
+            // console.log(input)
+            if(!this.start_flag){ //开始初始化
+                this.start_flag = true
+                this.ago_time = input['timeStamp'];
+            }
+            let value = this.playStr
+            let time = input['timeStamp']; //时间
+            let step = time - this.ago_time; //用时
+            if(input['inputType'] == 'insertCompositionText' && input['data'] != null){
+                value = this.playStr + input['data']
+            }
+            this.ago_time = time;
+            if(step > this.max_defer) step = this.max_defer ; //限定最长延迟
+            this.Data.push({
+                value:value,
+                step:step
+            })
+        }
+    },
+})
+</script>
+
+<style>
+	
+</style>

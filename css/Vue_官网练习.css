@@ -1,0 +1,189 @@
+.active{
+	width: 100px;
+	height: 100px;
+	background-color: green;
+	transition: all ease-out 0.5s;
+}
+.active1{
+	width:150px;
+	height: 150px;
+	background-color: red;
+}
+.active2{
+	width: 100px;
+	height: 175px;
+	background-color: blue;
+}
+.active3{
+	border-radius: 50px;
+}
+
+/**过渡代码
+ * 
+ */
+.app20-div{
+	width: 100px;
+	height: 30px;
+	border: 2px solid orange;
+	line-height: 0px;
+	text-align: center;
+}
+.app20-enter-active,.app20-leave-active{
+	transition:all 1s;
+}
+
+.app20-enter,.app20-leave-to{
+	opacity: 0;
+}
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.app20-1-enter-active {
+  transition: all .3s ease;
+}
+.app20-1-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.app20-1-enter, .app20-1-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ 
+{
+  transform: translateX(-10px);
+  opacity: 0;
+}
+/** 弹跳效果
+ * 定义出现过渡活动效果和消失过渡活动效果
+ * animation定义动画
+ * bounce-in是自定义事件
+ * 1s一秒
+ * @keyframes 关键帧
+ * 	后跟自定义事件Name
+ * 0%-50%-100% 各要实现的效果，然后用animation动画实现过渡
+ * 	transform:scale(比例)
+ */
+.app20-2-enter-active{
+	/*0-100*/
+	animation: bounce-in 1s;
+}
+.app20-2-leave-active{
+	/*100-0*/
+	animation: bounce-in 1s reverse;
+}
+@keyframes bounce-in{
+	0% {
+    	transform: scale(0);
+  	}
+  	50% {
+    	transform: scale(1.5);
+  	}
+  	100% {
+    	transform: scale(1);
+  	}
+}
+
+/** 定义两种过渡供html使用
+ * 都用了关键帧
+ * 第一种：出现过渡
+ * 第二种：隐藏过渡
+ * 
+ */
+.app20-3-show{
+	animation: show-in 1s;
+}
+@keyframes show-in{
+	0%{
+		transform: scale(0);
+	}
+	50%{
+		transform: scale(1.5);
+	}
+	70%{
+		transform: scale(0.8);
+	}
+	85%{
+		transform: scale(1.3);
+	}
+	100%{
+		transform: scale(1);
+	}
+	
+}
+.app20-3-hide{
+	animation: jump-out 2s;
+}
+@keyframes jump-out{
+	10%{
+		transform: translateX(-10px);
+	}
+	15%{
+		transform: translate(-10px,10px);
+	}
+	20%{
+		transform: translate(-10px,-10px);
+	}
+	25%{
+		transform: translate(-10px,10px);
+	}
+	30%{
+		transform: translate(-10px,-10px);
+	}
+	35%{
+		transform: translate(-10px,10px);
+	}
+	40%{
+		transform: translate(-10px,-10px);
+	}
+	45%{
+		transform: translate(-10px,10px);
+	}
+	50%{
+		transform: translate(0px,0px);
+	}
+	100%{
+		transform: translateX(100px);
+		transform: scale(0.1);
+	}
+}
+
+.app20-4-enter-active,.app20-4-leave-active{
+	transition: all 1s ease;
+}
+.app20-4-enter,.app20-4-leave-to{
+	opacity: 0;
+}
+.app20-5-enter-active,.app20-5-leave-active{
+	animation: left-out 1s;
+}
+@keyframes left-out{
+	100%{
+		transform: translateX(-30px);
+		opacity: 0;
+	}
+}
+
+.app21-enter-active,.app21-leave-active{
+	transition: opacity .3s;
+}
+.app21-enter,.app21-leave-to{
+	opacity: 0;
+}
+
+.app22-fileList-move{
+	transition: transform 1s;
+}
+
+.app23-enter-active,.app23-leave-active{
+	transition: all 1s;
+}
+.app23-leave-active{
+	/*移除的时候给绝对定位,这样没有碰撞体积,才能实现过渡效果*/
+	position: absolute;
+}
+.app23-enter,.app23-leave-to{
+	opacity: 0;
+  	transform: translateY(30px);
+}
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+  /*对所有的span都给过渡效果,就实现全程过渡*/
+  transition: all 1s;
+}
