@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue列表过度</title>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="shuffle">Shuffle</button>
+        <transition-group tag="p">
+            <div
+            v-for="todo in todos"
+            v-bind:key="todo"
+            class="list-complete-item"
+            >
+            {{ todo }}
+            </div>
+        </transition-group>
+    </div>
+</body>
+
+<script src="js/vue.js"></script>
+<script>
+var app = new Vue({
+    el:'#app',
+    data(){
+        return{
+            todos: [1,2,3,4,5,6,7,8,9],
+        }
+    },
+    methods:{
+        shuffle () {
+            var len = this.todos.length;
+            for (var i = 0; i < len - 1; i++) {
+                var index = parseInt(Math.random() * (len - i));
+                var temp = this.todos[index];
+                //用$set更新数组内容可以触发重新渲染
+                this.$set(this.todos, index, this.todos[len - i - 1]);
+                this.todos[len - i - 1] = temp;
+            }
+        },
+    }
+    
+})
+</script>
+
+<style>
+.list-complete-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+</style>
+
+</html>

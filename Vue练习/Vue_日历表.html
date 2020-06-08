@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>日历表</title>
+</head>
+
+<body>
+    <div id="app" style="text-align: center">
+        <h2>this is calender</h2>
+        {{year}}年/
+        <button @click="down('month')">-</button>
+        {{month+1}}月
+        <button @click="up('month')">+</button>
+        /:{{taday}}日|
+        星期：{{day}}|
+        一号星期：{{weeks[first_day_date]}}
+        <button @click="nowDate()">Taday</button>
+        <br>
+        <div class="frame">
+            <!-- 周期名 -->
+            <div class="date" v-for="week in weeks" :key="week">{{week}}</div>
+            <br />
+            <!-- 日期 -->
+            <div class="date" v-for="week in months[month] + first_day_date" :key="week"
+                :class="[{taday:iftaday(week - first_day_date)}]">{{ifdate(week)}}</div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                weeks: ["日", "一", "二", "三", "四", "五", "六"],
+                months: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                month: 0,
+                year: 0,
+                taday: 0,
+                day: 0,
+                first_day_date: 0,
+                istaday: true
+            }
+        },
+        methods: {
+            ifdate(week) {
+                //每月周前空白的
+                if (week > this.first_day_date) {
+                    return week - this.first_day_date;
+                }
+            },
+            up(key) {
+                if (key == "month") {
+                    //增加【
+                    this.first_day_date =
+                        (this.first_day_date + this.months[this.month]) % 7;
+                    if (this.month == 11) {
+                        this.month = 0;
+                        this.year++;
+                        this.ifrunn(this.year);
+                    } else {
+                        this.month++;
+                    }
+                    this.changeDay();
+                }
+            },
+            down(key) {
+                if (key == "month") {
+                    //减少月
+                    if (this.month == 0) {
+                        this.month = 11;
+                        this.year--;
+                        this.ifrunn(this.year);
+                    } else {
+                        this.month--;
+                    }
+                    this.first_day_date =
+                        (7 - ((this.months[this.month] + (7 - this.first_day_date)) % 7)) % 7;
+                    this.changeDay();
+                }
+            },
+            ifrunn(year) {
+                //判断闰年
+                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                    this.months[1] = 29;
+                } else {
+                    this.months[1] = 28;
+                }
+                // alert(this.months[1])
+            },
+            changeDay() {
+                this.day = this.weeks[(this.first_day_date + this.taday - 1) % 7];
+            },
+            nowDate() {
+                var nowDate = new Date();
+                this.year = nowDate.getFullYear(); //今年
+                this.month = nowDate.getMonth(); //今月0-11
+                this.taday = nowDate.getDate(); //今天
+                this.day = nowDate.getDay(); //星期0-6
+                this.first_day_date = (7 - (nowDate.getDate() % 7) + nowDate.getDay() + 1) % 7; //本月一号星期
+            },
+            iftaday(week) {
+                //alert (week)
+                if (week == this.taday) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        created() {
+            this.nowDate();
+        },
+    })
+</script>
+
+<style>
+    .frame {
+        width: 200px;
+        height: 200px;
+        border: 2px solid black;
+        margin: 0 auto;
+    }
+
+    .date {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        float: left;
+    }
+
+    .taday {
+        color: white;
+        background-color: orange;
+        border-radius: 50%;
+        animation: flash 2s infinite linear;
+    }
+
+    @keyframes flash {
+        0% {
+            box-shadow: 0px 0px 0px rgb(107, 0, 66);
+        }
+
+        50% {
+            box-shadow: 0px 0px 20px rgb(0, 136, 214);
+        }
+
+        100% {
+            box-shadow: 0px 0px 0px rgb(107, 0, 66);
+        }
+    }
+</style>
